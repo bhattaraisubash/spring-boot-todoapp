@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TODO App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  
+</head>
+<body>
+
+<div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>Edit Task</h1>
+  <p>Add you daily tasks so that you won't miss them !</p> 
+  <a th:href="@{/dashboard/tasks}" class="btn btn-warning">View Tasks</a>
+</div>
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-5 mx-auto">
+			<div class="card">
+				<div class="card-header">Edit Task</div>
+				<div class="card-body">
+					<form th:action="@{/dashboard/tasks/update/} + ${task.id}" th:method="POST" th:object="${task}">
+						  <div class="form-group">
+						    <label for="name">Task Name:</label>
+						    <input type="text" class="form-control" th:field="*{name}" required th:value="${task.name}">
+						  </div>
+						  <div class="form-group">
+						    <label for="date">Date:</label>
+						    <input type="date" class="form-control" th:field="*{date}" required th:value="${task.date}">
+						  </div>
+						  <button type="submit" class="btn btn-primary mt-3">Update</button>
+					</form> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

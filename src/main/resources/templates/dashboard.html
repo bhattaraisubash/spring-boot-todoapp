@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TODO App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  
+</head>
+<body>
+
+<div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1 th:text="'Welcome ' + ${name}"></h1>
+  <p>Add you daily tasks so that you won't miss them !</p> 
+  <a th:href="@{/dashboard/tasks/add}" class="btn btn-warning">Add Task</a>
+  <button class="btn btn-danger" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</button>
+</div>
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-md-12">
+			<div th:if = "${success}" class="bg-success text-white py-2 px-3" th:text="${success}"></div>
+			<table class="table table-striped">
+			    <thead>
+			      <tr>
+			        <th>S.No.</th>
+			        <th>Task</th>
+			        <th>Date</th>
+					<th>Action</th>
+			      </tr>
+			    </thead>
+			    <tbody th:each = "task: ${taskList}">
+			      <tr>
+			        <td th:text="${task.id}"></td>
+			        <td th:text = "${task.name}"></td>
+			        <td th:text = "${task.date}"></td>
+					<td>
+						<a th:href="@{/dashboard/tasks/edit/} + ${task.id}" class="btn btn-sm btn-primary">Edit</a>
+						<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" th:data-bs-target="'#delete' + ${task.id}">
+						  Delete
+						</button>
+						
+						<div class="modal fade" th:id="'delete' + ${task.id}">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h4 class="modal-title">Confirmation</h4>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+						      </div>
+						
+						      <div class="modal-body">
+									Are you sure you want to delete ? This process is irreversible.
+									<form th:id="'delete-form' + ${task.id}" th:action="@{/dashboard/tasks/delete/} + ${task.id}" method="POST" class="d-none">
+										
+									</form>
+						      </div>
+						
+						      <div class="modal-footer">
+								<button type="button" class="btn btn-danger" th:onclick="'document.getElementById(\'delete-form' + ${task.id} + '\').submit();'">Confirm</button>
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+					</td>
+			      </tr>
+			    </tbody>
+			  </table>
+		</div>
+	</div>
+</div>
+
+<form id="logout-form" class="d-none" th:action="@{/logout}" method="POST">
+
+</form>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
